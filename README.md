@@ -9,11 +9,13 @@ Online version at http://apakoh.dk/projects/moodle2google
 Adding ``?debug`` to the above url will set the Content-Type to ``text/plain``
 instead of ``text/calendar``.
 
+An iCalendar validator (the output is valid according to this): http://severinghaus.org/projects/icv/
+
 License
 -------
-Copyright (C) 2012 Niels Sonnich Poulsen (http://apakoh.dk)  
-Copyright (C) 2012 Elias Obeid  
-Copyright (C) 2012 Sebastian Wahl
+Copyright (C) 2012 Niels Sonnich Poulsen (https://github.com/Acolarh)  
+Copyright (C) 2012 Elias Obeid (https://github.com/Obeyed)  
+Copyright (C) 2012 Sebastian Wahl (https://github.com/spillerrec)
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
