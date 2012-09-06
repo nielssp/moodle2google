@@ -1,7 +1,7 @@
 <?php
 
-define('USERNAME', 'nspo11@student.aau.dk');
-define('AUTHTOKEN', '37c6068f91a65bb349ac4fe65933bd1dcc3a8928');
+define('USERNAME', '');
+define('AUTHTOKEN', '');
 
 include 'SG-iCalendar-replacements/SG_iCal.php';
 
