@@ -1,15 +1,15 @@
 <?php
 
-define('USERNAME', '');
-define('AUTHTOKEN', '');
+define('USERNAME', 'nspo11@student.aau.dk');
+define('AUTHTOKEN', '37c6068f91a65bb349ac4fe65933bd1dcc3a8928');
 
-include 'SG-iCalendar/SG_iCal.php';
+include 'SG-iCalendar-replacements/SG_iCal.php';
 
 $ical = new SG_iCalReader(
   'http://sict.moodle.aau.dk/calendar/export_execute.php'
   . '?preset_what=all&preset_time=recentupcoming&username='
-  . USERNAME . '&authtoken='
-  . AUTHTOKEN
+  . urlencode(USERNAME) . '&authtoken='
+  . urlencode(AUTHTOKEN)
 );
 
 include 'IcalGenerator.php';

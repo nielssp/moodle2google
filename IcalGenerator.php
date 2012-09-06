@@ -1,16 +1,29 @@
 <?php
 
 class IcalGenerator {
+
+  private $text = false;
+
+  public function __construct() {
+    if (isset($_GET['debug'])) {
+      $this->text = true;
+    }
+  }
   
   public function generate(SG_iCalReader $ical) {
-    if (isset($_GET['debug'])) {
+    if ($this->text) {
       header('Content-Type:text/plain');
     }
     else {
       header('Content-Type:text/calendar');
     }
     $events = $ical->getEvents();
-    include 'views/vcalendar.php';
+    if (!is_array($events)) {
+      echo 'ERROR';
+    }
+    else {
+      include 'views/vcalendar.php';
+    }
   }
 
   public function viewEvent(SG_iCal_VEvent $event) {
