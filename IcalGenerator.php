@@ -39,6 +39,9 @@ class IcalGenerator {
     if (strpos($note, 'DEB2') !== false) {
       return;
     }
+    if (strpos($note, 'SU(ENG)') !== false) {
+      return;
+    }
     list( , $place) = explode(' ', $summaryArray[4]);
     include 'views/vevent.php';
   }
