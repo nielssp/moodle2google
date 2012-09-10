@@ -42,7 +42,7 @@ class IcalGenerator {
     if (strpos($note, 'SU(ENG)') !== false) {
       return;
     }
-    list( , $place) = explode(' ', $summaryArray[4]);
+    list( , $place) = explode(' ', $summaryArray[4], 2);
     include 'views/vevent.php';
   }
 }
