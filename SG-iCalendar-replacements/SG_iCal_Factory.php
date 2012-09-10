@@ -26,13 +26,13 @@ class SG_iCal_Factory {
 	public static function factory( SG_iCal $ical, $section, $data ) {
 		switch( $section ) {
 			case "vcalendar":
-              require_once '../SG-iCalendar/blocks/SG_iCal_VCalendar.php'; // BUILD: Remove line
+              require_once p('SG-iCalendar/blocks/SG_iCal_VCalendar.php'); // BUILD: Remove line
 				return new SG_iCal_VCalendar(SG_iCal_Line::Remove_Line($data), $ical );
 			case "vtimezone":
-				require_once '../SG-iCalendar/blocks/SG_iCal_VTimeZone.php'; // BUILD: Remove line
+              require_once p('SG-iCalendar/blocks/SG_iCal_VTimeZone.php'); // BUILD: Remove line
 				return new SG_iCal_VTimeZone(SG_iCal_Line::Remove_Line($data), $ical );
 			case "vevent":
-              require_once 'SG_iCal_VEvent.php'; // BUILD: Remove line
+              require_once p('SG-iCalendar-replacements/SG_iCal_VEvent.php'); // BUILD: Remove line
 				return new SG_iCal_VEvent($data, $ical );
 
 			default:

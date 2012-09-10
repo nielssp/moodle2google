@@ -1,7 +1,14 @@
 <?php
 
+
+define('PATH', dirname(__FILE__));
+
 define('USERNAME', '');
 define('AUTHTOKEN', '');
+
+function p($path) {
+  return PATH . '/' . $path;
+}
 
 include 'SG-iCalendar-replacements/SG_iCal.php';
 
