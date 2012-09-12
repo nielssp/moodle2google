@@ -9,6 +9,19 @@ Online version at http://apakoh.dk/projects/moodle2google
 Adding ``?debug`` to the above url will set the Content-Type to ``text/plain``
 instead of ``text/calendar``.
 
+The query-parameter ``remove`` can be used to remove events that contain one
+of the specified values (``remove`` is a comma-separated list of values).
+The default behaviour is to remove AD2 and DEB2. A few examples:
+
+* Remove nothing:
+
+    http://apakoh.dk/projects/moodle2google?remove=
+    
+* Remove AD2, DEB2 and SU(ENG)
+
+    http://apakoh.dk/projects/moodle2google?remove=AD2,DEB2,SU(ENG)
+
+
 An iCalendar validator (the output is valid according to this): http://severinghaus.org/projects/icv/
 
 License
