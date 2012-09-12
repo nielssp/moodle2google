@@ -54,7 +54,7 @@ class IcalGenerator {
     preg_match('/^(.+?) (\(.+?\))/', $course, $matches);
     $course = $matches[1];
     $thing = $matches[2];
-    $note = $summaryArray[1]
+    $note = $summaryArray[1];
     list( , $place) = explode(' ', $summaryArray[4], 2);
     include 'views/vevent.php';
   }
