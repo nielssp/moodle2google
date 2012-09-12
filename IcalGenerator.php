@@ -20,6 +20,9 @@ class IcalGenerator {
   
   private function csvToArray($input) {
     // TODO: Improve? (like str_getcsv()? (PHP5.3+))
+    if (empty($input)) {
+      return array();
+    }
     return explode(',', $input);
   }
   
