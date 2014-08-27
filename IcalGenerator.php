@@ -1,61 +1,59 @@
 <?php
 
 class IcalGenerator {
-
   private $text = false;
-  
   private $remove = array();
 
-  public function __construct() {
-    if (isset($_GET['debug'])) {
-      $this->text = true;
-    }
-    if (isset($_GET['remove'])) {
-      $this->remove = $this->csvToArray($_GET['remove']);
-    }
-    else {
-      $this->remove = array('AD2', 'DEB2');
-    }
+  public function __construct($debug = false, $remove = array()) {
+    $this->text = $debug;
+    $this->remove = $remove;
   }
   
-  private function csvToArray($input) {
-    // TODO: Improve? (like str_getcsv()? (PHP5.3+))
-    if (empty($input)) {
-      return array();
-    }
-    return explode(',', $input);
-  }
-  
-  public function generate(SG_iCalReader $ical) {
-    if ($this->text) {
-      header('Content-Type:text/plain');
-    }
-    else {
-      header('Content-Type:text/calendar');
-    }
-    $events = $ical->getEvents();
-    if (!is_array($events)) {
-      echo 'ERROR';
-    }
-    else {
-      include 'views/vcalendar.php';
-    }
+  public function generate($url) {
+    if ($this->text)
+      header('Content-Type:text/plain; charset=utf-8');
+    else
+      header('Content-Type:text/calendar; charset=utf-8');
+
+
+    $raw = file_get_contents($url);
+    preg_match_all('/BEGIN:VEVENT(.+?)END:VEVENT/s', $raw, $events);
+
+    $events = $events[0];
+
+    include 'views/vcalendar.php';
   }
 
-  public function viewEvent(SG_iCal_VEvent $event) {
-    $summary = $event->getSummary();
+  private function read($event, $key) {
+    preg_match('/' . $key . ':(.+)\r/', $event, $matches);
+    return isset($matches[1]) ? $matches[1] : '';
+  }
+
+  public function viewEvent($event) {
+    $uid = $this->read($event, 'UID');
+    preg_match('/SUMMARY:(.+?)DESCRIPTION:/s', $event, $matches);
+    $summary = str_replace("\r\n\t ", '', $matches[1]);
     foreach ($this->remove as $needle) {
-      if (strpos($summary, $needle) !== false) {
+      if (strpos($summary, $needle) !== false)
         return;
-      }
     }
-    $summaryArray = explode(' - ', $event->getSummary());
-    list( , $course) = explode(' ', $summaryArray[0], 2);
-    preg_match('/^(.+?) (\(.+?\))/', $course, $matches);
+
+    $categories = $this->read($event, 'CATEGORIES');
+
+    preg_match('/Kursus: <\/span>(.+?) \(/', $summary, $matches);
     $course = $matches[1];
-    $thing = $matches[2];
-    $note = $summaryArray[1];
-    list( , $place) = explode(' ', $summaryArray[4], 2);
+
+    $dtstamp = $this->read($event, 'DTSTAMP');
+    $dtstart = $this->read($event, 'DTSTART');
+    $dtend = $this->read($event, 'DTEND');
+    $lastModified = $this->read($event, 'LAST-MODIFIED');
+
+    preg_match('/Lokale: <\/span>(.+?) - <span/', $summary, $matches);
+    $place = isset($matches[1]) ? $matches[1] : '';
+
+    preg_match('/<span lang="da" class="multilang">Note: <\/span>(.+?) - <span/', $summary, $matches);
+    $note = isset($matches[1]) ? $matches[1] : '';
+
     include 'views/vevent.php';
   }
 }

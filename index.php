@@ -1,27 +1,25 @@
 <?php
 
-
-define('PATH', dirname(__FILE__));
-
-define('USERNAME', '');
-define('AUTHTOKEN', '');
-
-function p($path) {
-  return PATH . '/' . $path;
+if (!isset($_GET['u']) || !isset($_GET['t'])) {
+  echo 'Error: Must set user id and access token';
+  exit;
 }
 
-include 'SG-iCalendar-replacements/SG_iCal.php';
+$userId = $_GET['u'];
+$authToken = $_GET['t'];
 
-$ical = new SG_iCalReader(
-  'http://sict.moodle.aau.dk/calendar/export_execute.php'
-  . '?preset_what=all&preset_time=recentupcoming&username='
-  . urlencode(USERNAME) . '&authtoken='
-  . urlencode(AUTHTOKEN)
-);
+date_default_timezone_set('UTC');
+
+$calendarUrl = 'http://moodle.aau.dk/calendar/export_execute.php'
+  . '?preset_what=all&preset_time=recentupcoming'
+  . '&userid='  . urlencode($userId)
+  . '&authtoken=' . urlencode($authToken);
 
 include 'IcalGenerator.php';
 
-$icalGenerator = new IcalGenerator();
-
-$icalGenerator->generate($ical);
+$icalGenerator = new IcalGenerator(
+  isset($_GET['debug']),
+  isset($_GET['remove']) ? str_getcsv($_GET['remove']) : array()
+);
+$icalGenerator->generate($calendarUrl);
 
